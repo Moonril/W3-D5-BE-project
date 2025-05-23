@@ -2,8 +2,10 @@ package entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "libri")
 @NamedQuery(name = "Libro.findByAutore", query = "SELECT e FROM Libri e WHERE e.autore = :autore")
 public class Libro extends ElementiCatalogo{
     // variabili

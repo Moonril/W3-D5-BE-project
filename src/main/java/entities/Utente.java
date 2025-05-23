@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@Table(name = "utenti")
 public class Utente {
     private String nome;
     private String cognome;

@@ -3,10 +3,15 @@ package entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-
+//utente e elemento prestato vanno settati in prestito, perchè lato proprietario
 @Entity
+@Table(name = "prestiti")
+//ritornare una lista di elementi in prestito. lista di elementi prestati.
+@NamedQuery(name = "Prestito.findByNumeroTessera", query = "select p from Prestito p where p.utente.numeroTessera= :numeroTessera and p.dataRestituzioneEffettiva is null")
+@NamedQuery(name = "Prestito.findScaduti", query = "select p from Prestito p where p.dataRestituzionePrevista< CURRENT_DATE and p.dataRestituzioneEffettiva is null")
 public class Prestito {
     @Id
+    @GeneratedValue
     private int id;
 
     @ManyToOne
@@ -33,6 +38,7 @@ public class Prestito {
         this.utente = utente;
         this.elementoPrestato = elementoPrestato;
         this.dataInizioPrestito = dataInizioPrestito;
+        this.dataRestituzionePrevista = dataInizioPrestito.plusDays(30);
     }
 
     public Prestito() {

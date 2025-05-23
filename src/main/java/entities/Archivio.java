@@ -86,7 +86,7 @@ public class Archivio {
 
     public void stampaStatistiche(){
         Long numeroLibri = catalogo.stream().filter(e->e instanceof Libro).count();
-        Long numeroRiviste = catalogo.stream().filter(e->e instanceof Riviste).count();
+        Long numeroRiviste = catalogo.stream().filter(e->e instanceof Rivista).count();
 
         Optional<ElementiCatalogo> maxPagine = catalogo.stream()
                 .max(Comparator.comparingInt(ElementiCatalogo::getNumeroPagine));

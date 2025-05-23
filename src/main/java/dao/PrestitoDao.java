@@ -3,6 +3,9 @@ package dao;
 import entities.ElementiCatalogo;
 import entities.Prestito;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+
+import java.util.List;
 
 public class PrestitoDao {
     private EntityManager em;
@@ -33,4 +36,17 @@ public class PrestitoDao {
         }
     }
 
+    // query
+
+    public List<ElementiCatalogo> getByAnno(int anno) {
+        TypedQuery<ElementiCatalogo> query = em.createNamedQuery("ElementoCatalogo.findByAnno", ElementiCatalogo.class);
+        query.setParameter("anno", anno);
+        return query.getResultList();
+    }
+
+    public List<ElementiCatalogo> getByAnno(int anno) {
+        TypedQuery<ElementiCatalogo> query = em.createNamedQuery("ElementoCatalogo.findByAnno", ElementiCatalogo.class);
+        query.setParameter("anno", anno);
+        return query.getResultList();
+    }
 }
