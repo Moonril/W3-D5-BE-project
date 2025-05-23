@@ -1,11 +1,17 @@
 package entities;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class ElementiCatalogo {
+    @Id
+    @GeneratedValue
     private String ISBN;
     private String titolo;
-    private int anno;
+    private int anno; // cambiare in Year
     private int numeroPagine;
 
     public ElementiCatalogo(String ISBN, String titolo, int anno, int numeroPagine) {

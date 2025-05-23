@@ -15,6 +15,17 @@ import java.util.stream.Collectors;
 // ricerca per autore
 // aggiornamento per ISBN
 // statistiche
+
+/*
+- Aggiunta di un elemento del catalogo
+- Rimozione di un elemento del catalogo dato un codice ISBN
+- Ricerca per ISBN
+- Ricerca per anno pubblicazione
+- Ricerca per autore
+- Ricerca per titolo o parte di esso
+- Ricerca degli elementi attualmente in prestito dato un numero di tessera utente
+- Ricerca di tutti i prestiti scaduti e non ancora restituiti
+*/
 public class Archivio {
 
     //contenitore
