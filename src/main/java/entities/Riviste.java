@@ -1,7 +1,9 @@
 package entities;
 
 import enums.Periodicita;
+import jakarta.persistence.Entity;
 
+@Entity
 public class Riviste extends ElementiCatalogo {
     //variabili
     private Periodicita periodicita;
@@ -13,6 +15,7 @@ public class Riviste extends ElementiCatalogo {
         this.periodicita = periodicita;
     }
 
+    public Riviste(){}
 
     //tostring
 
@@ -28,5 +31,9 @@ public class Riviste extends ElementiCatalogo {
 
     public Periodicita getPeriodicita() {
         return periodicita;
+    }
+
+    public void setPeriodicita(Periodicita periodicita) {
+        this.periodicita = periodicita;
     }
 }

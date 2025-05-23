@@ -1,5 +1,8 @@
 package entities;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class Libri extends ElementiCatalogo{
     // variabili
     private String autore;
@@ -11,6 +14,8 @@ public class Libri extends ElementiCatalogo{
         this.autore = autore;
         this.genere = genere;
     }
+
+    public Libri(){}
 
     //tostring
 
@@ -33,6 +38,11 @@ public class Libri extends ElementiCatalogo{
         return genere;
     }
 
+    public void setAutore(String autore) {
+        this.autore = autore;
+    }
 
-
+    public void setGenere(String genere) {
+        this.genere = genere;
+    }
 }
