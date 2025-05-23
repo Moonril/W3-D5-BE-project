@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <!-- nome importante -->
+    <persistence-unit name="postgres" transaction-type="RESOURCE_LOCAL">
+        <class><!-- Entity Manager Class Name --></class>
+        <properties>
+            <!-- primo è il percorso del driver, cambia a seconda di cosa si usa(mysql) -->
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+            <!-- url database , nome database -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/posgretre" />
+            <property name="javax.persistence.jdbc.user" value="postgres" />
+            <!-- password postgre  -->
+            <property name="javax.persistence.jdbc.password" value="MaremmaLadra26" />
+            <property name="hibernate.default_schema" value="public" />
+            <!-- permette di creare tabelle senza scrivere nulla. update: se non c'è la tabella , creala. se c'è, aggiornala  -->
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+        </properties>
+    </persistence-unit>
+</persistence>
