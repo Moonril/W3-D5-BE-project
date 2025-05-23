@@ -64,10 +64,10 @@ public class Archivio {
         return risultati;
     }
 
-    public List<Libri> cercaPerAutore(String autore) throws ElementoNonTrovatoException{
-        List<Libri> risultati = catalogo.stream()
-                .filter(e -> e instanceof Libri)
-                .map(e -> (Libri) e)
+    public List<Libro> cercaPerAutore(String autore) throws ElementoNonTrovatoException{
+        List<Libro> risultati = catalogo.stream()
+                .filter(e -> e instanceof Libro)
+                .map(e -> (Libro) e)
                 .filter(libro -> libro.getAutore().equalsIgnoreCase(autore))
                 .collect(Collectors.toList());
 
@@ -85,7 +85,7 @@ public class Archivio {
     }
 
     public void stampaStatistiche(){
-        Long numeroLibri = catalogo.stream().filter(e->e instanceof Libri).count();
+        Long numeroLibri = catalogo.stream().filter(e->e instanceof Libro).count();
         Long numeroRiviste = catalogo.stream().filter(e->e instanceof Riviste).count();
 
         Optional<ElementiCatalogo> maxPagine = catalogo.stream()

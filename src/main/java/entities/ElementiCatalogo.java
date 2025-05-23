@@ -7,6 +7,8 @@ import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@NamedQuery(name = "ElementoCatalogo.findByAnno", query = "select e from ElementoCatalogo e WHERE e.anno = :anno")
+@NamedQuery(name = "ElementoCatalogo.findByIsbn", query = "select e from ElementoCatalogo e WHERE e.isbn = :isbn")
 public abstract class ElementiCatalogo {
     @Id
     @GeneratedValue

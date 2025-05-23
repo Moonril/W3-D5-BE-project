@@ -1,21 +1,23 @@
 package entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.NamedQuery;
 
 @Entity
-public class Libri extends ElementiCatalogo{
+@NamedQuery(name = "Libro.findByAutore", query = "SELECT e FROM Libri e WHERE e.autore = :autore")
+public class Libro extends ElementiCatalogo{
     // variabili
     private String autore;
     private String genere;
 
     //costruttore
-    public Libri(String ISBN, String titolo, int anno, int numeroPagine, String autore, String genere) {
+    public Libro(String ISBN, String titolo, int anno, int numeroPagine, String autore, String genere) {
         super(ISBN, titolo, anno, numeroPagine);
         this.autore = autore;
         this.genere = genere;
     }
 
-    public Libri(){}
+    public Libro(){}
 
     //tostring
 
