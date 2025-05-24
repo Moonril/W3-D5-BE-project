@@ -38,15 +38,14 @@ public class PrestitoDao {
 
     // query
 
-    public List<ElementiCatalogo> getByAnno(int anno) {
-        TypedQuery<ElementiCatalogo> query = em.createNamedQuery("ElementoCatalogo.findByAnno", ElementiCatalogo.class);
-        query.setParameter("anno", anno);
+    public List<ElementiCatalogo> getByTessera(int tessera) {
+        TypedQuery<ElementiCatalogo> query = em.createNamedQuery("Prestito.findByNumeroTessera", ElementiCatalogo.class);
+        query.setParameter("tessera", tessera);
         return query.getResultList();
     }
 
-    public List<ElementiCatalogo> getByAnno(int anno) {
-        TypedQuery<ElementiCatalogo> query = em.createNamedQuery("ElementoCatalogo.findByAnno", ElementiCatalogo.class);
-        query.setParameter("anno", anno);
+    public List<ElementiCatalogo> getScaduti() {
+        TypedQuery<ElementiCatalogo> query = em.createNamedQuery("Prestito.findElementiScaduti", ElementiCatalogo.class);
         return query.getResultList();
     }
 }

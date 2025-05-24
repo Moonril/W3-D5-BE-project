@@ -7,8 +7,8 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "prestiti")
 //ritornare una lista di elementi in prestito. lista di elementi prestati.
-@NamedQuery(name = "Prestito.findByNumeroTessera", query = "select p from Prestito p where p.utente.numeroTessera= :numeroTessera and p.dataRestituzioneEffettiva is null")
-@NamedQuery(name = "Prestito.findScaduti", query = "select p from Prestito p where p.dataRestituzionePrevista< CURRENT_DATE and p.dataRestituzioneEffettiva is null")
+@NamedQuery(name = "Prestito.findByNumeroTessera", query = "SELECT p.elementoPrestato FROM Prestito p WHERE p.utente.numeroTessera = :numeroTessera AND p.dataRestituzioneEffettiva IS NULL")
+@NamedQuery(name = "Prestito.findScaduti", query = "SELECT p.elementoPrestato FROM Prestito p WHERE p.dataRestituzionePrevista < CURRENT_DATE AND p.dataRestituzioneEffettiva IS NULL")
 public class Prestito {
     @Id
     @GeneratedValue

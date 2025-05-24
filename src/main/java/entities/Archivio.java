@@ -7,15 +7,6 @@ import exceptions.ElementoNonTrovatoException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
-// aggiunta elemento
-// ricerca per ISBN
-// rimozione per ISBN
-// ricerca per anno
-// ricerca per autore
-// aggiornamento per ISBN
-// statistiche
-
 /*
 - Aggiunta di un elemento del catalogo
 - Rimozione di un elemento del catalogo dato un codice ISBN
