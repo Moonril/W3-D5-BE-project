@@ -2,18 +2,21 @@ package entities;
 
 import enums.Periodicita;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "riviste")
-public class Rivista extends ElementiCatalogo {
+public class Rivista extends ElementoCatalogo {
     //variabili
+    @Enumerated(EnumType.STRING)
     private Periodicita periodicita;
 
     //costruttore
 
-    public Rivista(String ISBN, String titolo, int anno, int numeroPagine, Periodicita periodicita) {
-        super(ISBN, titolo, anno, numeroPagine);
+    public Rivista(int isbn, String titolo, int anno, int numeroPagine, Periodicita periodicita) {
+        super(isbn, titolo, anno, numeroPagine);
         this.periodicita = periodicita;
     }
 

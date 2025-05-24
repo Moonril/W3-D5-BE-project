@@ -18,10 +18,9 @@ public class Prestito {
     @JoinColumn(name = "utente_numero_tessera")
     private Utente utente;
 
-    @Column(name = "elemento_prestato")
     @ManyToOne
-    @JoinColumn(name = "elemento_isbn")
-    private ElementiCatalogo elementoPrestato;
+    @JoinColumn(name = "elemento_prestato_isbn")
+    private ElementoCatalogo elementoPrestato;
 
     @Column(name = "data_inizio_prestito")
     private LocalDate dataInizioPrestito;
@@ -34,7 +33,7 @@ public class Prestito {
 
     //costruttori
 
-    public Prestito(Utente utente, ElementiCatalogo elementoPrestato, LocalDate dataInizioPrestito) {
+    public Prestito(Utente utente, ElementoCatalogo elementoPrestato, LocalDate dataInizioPrestito) {
         this.utente = utente;
         this.elementoPrestato = elementoPrestato;
         this.dataInizioPrestito = dataInizioPrestito;
@@ -76,11 +75,11 @@ public class Prestito {
         this.utente = utente;
     }
 
-    public ElementiCatalogo getElementoPrestato() {
+    public ElementoCatalogo getElementoPrestato() {
         return elementoPrestato;
     }
 
-    public void setElementoPrestato(ElementiCatalogo elementoPrestato) {
+    public void setElementoPrestato(ElementoCatalogo elementoPrestato) {
         this.elementoPrestato = elementoPrestato;
     }
 

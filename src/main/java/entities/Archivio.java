@@ -1,15 +1,13 @@
 package entities;
 
 
-import dao.ElementiCatalogoDao;
+import dao.ElementoCatalogoDao;
 import dao.PrestitoDao;
 import dao.UtenteDao;
-import exceptions.DuplicatoException;
 import exceptions.ElementoNonTrovatoException;
 import jakarta.persistence.EntityManager;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /*
 - Aggiunta di un elemento del catalogo
@@ -24,14 +22,14 @@ import java.util.stream.Collectors;
 public class Archivio {
 
     //contenitore
-    private ElementiCatalogoDao elementiDao;
+    private ElementoCatalogoDao elementiDao;
     private PrestitoDao prestitoDao;
     private UtenteDao utenteDao;
 
 
 
     public Archivio(EntityManager em) {
-        this.elementiDao = new ElementiCatalogoDao(em);
+        this.elementiDao = new ElementoCatalogoDao(em);
         this.prestitoDao = new PrestitoDao(em);
         this.utenteDao = new UtenteDao(em);
     }
@@ -39,7 +37,7 @@ public class Archivio {
 
     //metodi
 
-    public void aggiungiElemento(ElementiCatalogo elemento) {
+    public void aggiungiElemento(ElementoCatalogo elemento) {
         elementiDao.save(elemento);
     }
 
@@ -47,27 +45,31 @@ public class Archivio {
         elementiDao.remove(isbn);
     }
 
-    public ElementiCatalogo cercaPerIsbn (String isbn) {
+    public ElementoCatalogo cercaPerIsbn (String isbn) {
         return elementiDao.getByIsbn(isbn);
     }
 
-    public List<ElementiCatalogo> cercaPerAnno(int anno) throws ElementoNonTrovatoException {
-        return elementiDao.getByAnno(anno);
+    public List<ElementoCatalogo> cercaPerAnno(int anno) throws ElementoNonTrovatoException {
+        List<ElementoCatalogo> lista = elementiDao.getByAnno(anno);
+        if (lista.isEmpty()) {
+            throw new ElementoNonTrovatoException("Nessun elemento trovato per l'anno " + anno);
+        }
+        return lista;
     }
 
     public List<Libro> cercaPerAutore(String autore) throws ElementoNonTrovatoException{
         return elementiDao.getByAutore(autore);
     }
 
-    public List<ElementiCatalogo> cercaPerTitolo(String titolo) {
+    public List<ElementoCatalogo> cercaPerTitolo(String titolo) {
         return elementiDao.getByTitolo(titolo);
     }
 
-    public List<ElementiCatalogo> getPrestitiAttiviPerUtente(int numeroTessera) {
+    public List<ElementoCatalogo> getPrestitiAttiviPerUtente(int numeroTessera) {
         return prestitoDao.getByTessera(numeroTessera);
     }
 
-    public List<ElementiCatalogo> getPrestitiScadutiNonRestituiti() {
+    public List<ElementoCatalogo> getPrestitiScadutiNonRestituiti() {
         return prestitoDao.getScaduti();
     }
 

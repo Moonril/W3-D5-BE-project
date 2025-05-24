@@ -6,18 +6,20 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "libri")
-@NamedQuery(name = "Libro.findByAutore", query = "SELECT e FROM Libri e WHERE e.autore = :autore")
-public class Libro extends ElementiCatalogo{
+@NamedQuery(name = "Libro.findByAutore", query = "SELECT e FROM Libro e WHERE e.autore = :autore")
+public class Libro extends ElementoCatalogo {
     // variabili
     private String autore;
     private String genere;
 
     //costruttore
-    public Libro(String ISBN, String titolo, int anno, int numeroPagine, String autore, String genere) {
-        super(ISBN, titolo, anno, numeroPagine);
+
+    public Libro(int isbn, String titolo, int anno, int numeroPagine, String autore, String genere) {
+        super(isbn, titolo, anno, numeroPagine);
         this.autore = autore;
         this.genere = genere;
     }
+
 
     public Libro(){}
 

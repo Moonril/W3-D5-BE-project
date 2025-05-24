@@ -15,7 +15,7 @@ public class Utente {
     @Id
     private int numeroTessera;
 
-    @OneToMany
+    @OneToMany(mappedBy = "utente")
     private List<Prestito> prestiti;
 
     // costruttori

@@ -1,36 +1,36 @@
 package dao;
 
-import entities.ElementiCatalogo;
+import entities.ElementoCatalogo;
 import entities.Libro;
 import exceptions.ElementoNonTrovatoException;
 import jakarta.persistence.*;
 
 import java.util.List;
 
-public class ElementiCatalogoDao {
+public class ElementoCatalogoDao {
     private EntityManager em;
 
-    public ElementiCatalogoDao(){
+    public ElementoCatalogoDao(){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("postgres");
         em = emf.createEntityManager();
     }
 
-    public ElementiCatalogoDao(EntityManager em){
+    public ElementoCatalogoDao(EntityManager em){
         this.em = em;
     }
 
-    public void save(ElementiCatalogo e){
+    public void save(ElementoCatalogo e){
         em.getTransaction().begin();
         em.persist(e);
         em.getTransaction().commit();
     }
 
-    public ElementiCatalogo getIsbn(String isbn){
-        return em.find(ElementiCatalogo.class, isbn);
+    public ElementoCatalogo getIsbn(String isbn){
+        return em.find(ElementoCatalogo.class, isbn);
     }
 
     public void remove(String isbn) {
-        ElementiCatalogo e = getIsbn(isbn);
+        ElementoCatalogo e = getIsbn(isbn);
 
         if(e!=null){
             em.getTransaction().begin();
@@ -42,14 +42,14 @@ public class ElementiCatalogoDao {
     }
 
     //query
-    public List<ElementiCatalogo> getByAnno(int anno) {
-        TypedQuery<ElementiCatalogo> query = em.createNamedQuery("ElementoCatalogo.findByAnno", ElementiCatalogo.class);
+    public List<ElementoCatalogo> getByAnno(int anno) {
+        TypedQuery<ElementoCatalogo> query = em.createNamedQuery("ElementoCatalogo.findByAnno", ElementoCatalogo.class);
         query.setParameter("anno", anno);
         return query.getResultList();
     }
 
-    public ElementiCatalogo getByIsbn(String isbn) {
-        TypedQuery<ElementiCatalogo> query = em.createNamedQuery("ElementoCatalogo.findByIsbn", ElementiCatalogo.class);
+    public ElementoCatalogo getByIsbn(String isbn) {
+        TypedQuery<ElementoCatalogo> query = em.createNamedQuery("ElementoCatalogo.findByIsbn", ElementoCatalogo.class);
         query.setParameter("isbn", isbn);
         try {
             return query.getSingleResult();
@@ -64,8 +64,8 @@ public class ElementiCatalogoDao {
         return query.getResultList(); //?
     }
 
-    public List<ElementiCatalogo> getByTitolo(String titolo){
-        TypedQuery<ElementiCatalogo> query = em.createQuery("select e from ElementiCatalogo e where lower(e.titolo) like lower(:titolo", ElementiCatalogo.class);
+    public List<ElementoCatalogo> getByTitolo(String titolo){
+        TypedQuery<ElementoCatalogo> query = em.createQuery("select e from ElementiCatalogo e where lower(e.titolo) like lower(:titolo)", ElementoCatalogo.class);
         query.setParameter("titolo", "%" + titolo + "%");
         return query.getResultList();
     }

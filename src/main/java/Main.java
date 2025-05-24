@@ -1,5 +1,5 @@
 import entities.Archivio;
-import entities.ElementiCatalogo;
+import entities.ElementoCatalogo;
 import entities.Libro;
 import entities.Rivista;
 import enums.Periodicita;
@@ -55,7 +55,8 @@ public class Main {
 
                         System.out.println("codice ISBN: ");
 
-                        String isbn = scanner.nextLine();
+                        int isbn = scanner.nextInt();
+                        scanner.nextLine();
                         System.out.println("Titolo: ");
                         String titolo = scanner.nextLine();
 
@@ -89,7 +90,9 @@ public class Main {
                     try{
 
                         System.out.println("codice ISBN: ");
-                        String isbnr = scanner.nextLine();
+                        int isbnr = scanner.nextInt();
+                        scanner.nextLine();
+
 
                         System.out.println("Titolo: ");
                         String titolor = scanner.nextLine();
@@ -163,12 +166,12 @@ public class Main {
                         scanner.nextLine();
 
 
-                        List<ElementiCatalogo> prestitiAttivi = archivio.getPrestitiAttiviPerUtente(tessera);
+                        List<ElementoCatalogo> prestitiAttivi = archivio.getPrestitiAttiviPerUtente(tessera);
                         if (prestitiAttivi.isEmpty()) {
                             System.out.println("Nessun elemento attualmente in prestito per la tessera " + tessera);
                         } else {
                             System.out.println("Elementi attualmente in prestito per la tessera " + tessera + ":");
-                            prestitiAttivi.forEach(e -> System.out.println("- " + e.getTitolo() + " (ISBN: " + e.getISBN() + ")"));
+                            prestitiAttivi.forEach(e -> System.out.println("- " + e.getTitolo() + " (ISBN: " + e.getIsbn() + ")"));
                         }
                     } catch (ElementoNonTrovatoException e) {
                         System.out.println("Errore: " + e.getMessage());
@@ -176,12 +179,12 @@ public class Main {
                 }
                 case 8-> {
                     try {
-                        List<ElementiCatalogo> prestitiScaduti = archivio.getPrestitiScadutiNonRestituiti();
+                        List<ElementoCatalogo> prestitiScaduti = archivio.getPrestitiScadutiNonRestituiti();
                         if (prestitiScaduti.isEmpty()) {
                             System.out.println("Non ci sono prestiti scaduti non ancora restituiti.");
                         } else {
                             System.out.println("Elementi con prestiti scaduti e non restituiti:");
-                            prestitiScaduti.forEach(e -> System.out.println("- " + e.getTitolo() + " (ISBN: " + e.getISBN() + ")"));
+                            prestitiScaduti.forEach(e -> System.out.println("- " + e.getTitolo() + " (ISBN: " + e.getIsbn() + ")"));
                         }
                     } catch (ElementoNonTrovatoException e) {
                         System.out.println("Errore: " + e.getMessage());
@@ -191,12 +194,12 @@ public class Main {
                     try {
                         System.out.println("Inserisci il titolo o parte del titolo da cercare: ");
                         String titolo = scanner.nextLine();
-                        List<ElementiCatalogo> risultati = archivio.cercaPerTitolo(titolo);
+                        List<ElementoCatalogo> risultati = archivio.cercaPerTitolo(titolo);
                         if (risultati.isEmpty()) {
                             System.out.println("Nessun elemento trovato con il titolo contenente: " + titolo);
                         } else {
                             System.out.println("Elementi trovati:");
-                            risultati.forEach(e -> System.out.println("- " + e.getTitolo() + " (ISBN: " + e.getISBN() + ")"));
+                            risultati.forEach(e -> System.out.println("- " + e.getTitolo() + " (ISBN: " + e.getIsbn() + ")"));
                         }
                     } catch (ElementoNonTrovatoException e) {
                         System.out.println("Errore: " + e.getMessage());

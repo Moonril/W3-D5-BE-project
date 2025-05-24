@@ -1,6 +1,5 @@
 package dao;
 
-import entities.ElementiCatalogo;
 import entities.Utente;
 import jakarta.persistence.EntityManager;
 
@@ -29,7 +28,7 @@ public class UtenteDao {
             em.remove(t);
             em.getTransaction().commit();
         } else {
-            System.out.println("L'utente " + t + " non è presente nel database");
+            System.out.println("L'utente  con tessera: " + tessera + " non è presente nel database");
         }
     }
 

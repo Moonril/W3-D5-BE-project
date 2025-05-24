@@ -1,6 +1,6 @@
 package dao;
 
-import entities.ElementiCatalogo;
+import entities.ElementoCatalogo;
 import entities.Prestito;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -32,20 +32,20 @@ public class PrestitoDao {
             em.remove(p);
             em.getTransaction().commit();
         } else {
-            System.out.println("Il prestito selezionato: " + p + " non è presente nel database");
+            System.out.println("Il prestito selezionato: " + id + " non è presente nel database");
         }
     }
 
     // query
 
-    public List<ElementiCatalogo> getByTessera(int tessera) {
-        TypedQuery<ElementiCatalogo> query = em.createNamedQuery("Prestito.findByNumeroTessera", ElementiCatalogo.class);
-        query.setParameter("tessera", tessera);
+    public List<ElementoCatalogo> getByTessera(int tessera) {
+        TypedQuery<ElementoCatalogo> query = em.createNamedQuery("Prestito.findByNumeroTessera", ElementoCatalogo.class);
+        query.setParameter("numeroTessera", tessera);
         return query.getResultList();
     }
 
-    public List<ElementiCatalogo> getScaduti() {
-        TypedQuery<ElementiCatalogo> query = em.createNamedQuery("Prestito.findElementiScaduti", ElementiCatalogo.class);
+    public List<ElementoCatalogo> getScaduti() {
+        TypedQuery<ElementoCatalogo> query = em.createNamedQuery("Prestito.findScaduti", ElementoCatalogo.class);
         return query.getResultList();
     }
 }
