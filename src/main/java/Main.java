@@ -1,13 +1,28 @@
 import entities.Archivio;
+import entities.ElementiCatalogo;
+import entities.Libro;
+import entities.Rivista;
+import enums.Periodicita;
+import exceptions.DuplicatoException;
+import exceptions.ElementoNonTrovatoException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        Archivio archivio = new Archivio();
+
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("postgres");
+        EntityManager em = emf.createEntityManager();
+
+        Archivio archivio = new Archivio(em);
 
         int scelta = -1;
         while (scelta != 0){
@@ -19,11 +34,12 @@ public class Main {
                 System.out.println("1 - Aggiungi un libro");
                 System.out.println("2 - Aggiungi una rivista");
                 System.out.println("3 - Rimuovi un elemento");
-                System.out.println("4 - Aggiorna un elemento tramite codice ISBN");
-                System.out.println("5 - Cerca per codice ISBN");
-                System.out.println("6 - Cerca per autore");
-                System.out.println("7 - Cerca per anno di pubblicazione");
-                System.out.println("8 - Visiona statistiche Libreria");
+                System.out.println("4 - Cerca per codice ISBN");
+                System.out.println("5 - Cerca per autore");
+                System.out.println("6 - Cerca per anno di pubblicazione");
+                System.out.println("7 - Ricerca elementi attualmente in prestito per tessera");
+                System.out.println("8 - Ricerca elementi scaduti per tessera");
+                System.out.println("9 - Ricerca per titolo");
                 System.out.println("0 - Esci");
 
                 scelta = Integer.parseInt(scanner.nextLine());
@@ -57,13 +73,15 @@ public class Main {
                         System.out.println("Genere: ");
                         String genere = scanner.nextLine();
 
-                        Libri libro = new Libri(isbn, titolo, anno, pagine, autore, genere);
+                        Libro libro = new Libro(isbn, titolo, anno, pagine, autore, genere);
                         archivio.aggiungiElemento(libro);
                         System.out.println(titolo + " aggiunto!");
                     }  catch (DuplicatoException e) {
                         System.out.println("Errore: " + e.getMessage());
                     } catch (InputMismatchException e) {
                         System.out.println("Errore: Inserisci un numero");
+                    } catch (Exception e) {
+                        System.out.println("Errore generico");
                     }
                 }
                 case 2 ->{
@@ -88,13 +106,15 @@ public class Main {
                         String input = scanner.nextLine().toUpperCase();
                         Periodicita periodicita = Periodicita.valueOf(input);
 
-                        Riviste rivista = new Riviste(isbnr, titolor, annor, paginer, periodicita);
+                        Rivista rivista = new Rivista(isbnr, titolor, annor, paginer, periodicita);
                         archivio.aggiungiElemento(rivista);
                         System.out.println(titolor + " aggiunto!");
                     } catch (IllegalArgumentException e) {
                         System.out.println("Errore: periodicità non valida o input numerico errato.");
                     } catch (DuplicatoException e) {
                         System.out.println("Errore: " + e.getMessage());
+                    } catch (Exception e) {
+                        System.out.println("Errore generico");
                     }
 
                 }
@@ -107,45 +127,6 @@ public class Main {
                 }
                 case 4 -> {
                     try {
-                        System.out.println("Inserisci il codice ISBN dell'elemento che vuoi aggiornare: ");
-                        String isbn = scanner.nextLine();
-                        System.out.println("Modifica il titolo: ");
-                        String titolo =scanner.nextLine();
-                        System.out.println("Modifica l'anno: ");
-                        int anno = scanner.nextInt();
-                        scanner.nextLine();
-                        System.out.println("Modifica il numero di pagine: ");
-                        int pagine = scanner.nextInt();
-                        scanner.nextLine();
-                        System.out.println("è un libro(1) o una rivista(2)?");
-                        int tipo = scanner.nextInt();
-                        scanner.nextLine();
-
-                        ElementiCatalogo nuovoElemento;
-                        if(tipo == 1){
-                            System.out.println("Modifica l'autore: ");
-                            String autore = scanner.nextLine();
-                            System.out.println("Modifica il genere: ");
-                            String genere = scanner.nextLine();
-                            nuovoElemento = new Libri(isbn, titolo, anno, pagine, autore, genere);
-                            archivio.aggiornaElemento(isbn, nuovoElemento);
-                            System.out.println(titolo + " aggiunto!");
-                        } else if (tipo == 2){
-                            System.out.println("Periodicità della rivista (SETTIMANALE, MENSILE, SEMESTRALE): ");
-                            String input = scanner.nextLine().toUpperCase();
-                            Periodicita periodicita = Periodicita.valueOf(input);
-                            nuovoElemento = new Riviste(isbn, titolo, anno, pagine, periodicita);
-                            archivio.aggiornaElemento(isbn, nuovoElemento);
-                            System.out.println(titolo + " aggiunto!");
-                        }
-                    } catch (InputMismatchException e){
-                        System.out.println("inserire solo numeri, 1 per libri, 2 per riviste");
-                    } catch (ElementoNonTrovatoException e) {
-                        System.out.println("Elemento non trovato");
-                    }
-                }
-                case 5->{
-                    try {
 
                         System.out.println("Ricerca per codice ISBN: ");
                         String isbn = scanner.nextLine();
@@ -153,9 +134,8 @@ public class Main {
                     } catch (ElementoNonTrovatoException e) {
                         System.out.println("Errore: " + e.getMessage());
                     }
-
                 }
-                case 6->{
+                case 5->{
                     try {
 
                         System.out.println("Ricerca per autore: ");
@@ -164,8 +144,9 @@ public class Main {
                     } catch (ElementoNonTrovatoException e){
                         System.out.println("Errore: " + e.getMessage());
                     }
+
                 }
-                case 7->{
+                case 6->{
                     try {
                         System.out.println("Ricerca per anno: ");
                         int anno = scanner.nextInt();
@@ -175,7 +156,52 @@ public class Main {
                         System.out.println("Errore: " + e.getMessage());
                     }
                 }
-                case 8-> archivio.stampaStatistiche();
+                case 7->{
+                    try {
+                        System.out.println("Inserisci numero tessera utente: ");
+                        int tessera = scanner.nextInt();
+                        scanner.nextLine();
+
+
+                        List<ElementiCatalogo> prestitiAttivi = archivio.getPrestitiAttiviPerUtente(tessera);
+                        if (prestitiAttivi.isEmpty()) {
+                            System.out.println("Nessun elemento attualmente in prestito per la tessera " + tessera);
+                        } else {
+                            System.out.println("Elementi attualmente in prestito per la tessera " + tessera + ":");
+                            prestitiAttivi.forEach(e -> System.out.println("- " + e.getTitolo() + " (ISBN: " + e.getISBN() + ")"));
+                        }
+                    } catch (ElementoNonTrovatoException e) {
+                        System.out.println("Errore: " + e.getMessage());
+                    }
+                }
+                case 8-> {
+                    try {
+                        List<ElementiCatalogo> prestitiScaduti = archivio.getPrestitiScadutiNonRestituiti();
+                        if (prestitiScaduti.isEmpty()) {
+                            System.out.println("Non ci sono prestiti scaduti non ancora restituiti.");
+                        } else {
+                            System.out.println("Elementi con prestiti scaduti e non restituiti:");
+                            prestitiScaduti.forEach(e -> System.out.println("- " + e.getTitolo() + " (ISBN: " + e.getISBN() + ")"));
+                        }
+                    } catch (ElementoNonTrovatoException e) {
+                        System.out.println("Errore: " + e.getMessage());
+                    }
+                }
+                case 9-> {
+                    try {
+                        System.out.println("Inserisci il titolo o parte del titolo da cercare: ");
+                        String titolo = scanner.nextLine();
+                        List<ElementiCatalogo> risultati = archivio.cercaPerTitolo(titolo);
+                        if (risultati.isEmpty()) {
+                            System.out.println("Nessun elemento trovato con il titolo contenente: " + titolo);
+                        } else {
+                            System.out.println("Elementi trovati:");
+                            risultati.forEach(e -> System.out.println("- " + e.getTitolo() + " (ISBN: " + e.getISBN() + ")"));
+                        }
+                    } catch (ElementoNonTrovatoException e) {
+                        System.out.println("Errore: " + e.getMessage());
+                    }
+                }
                 case 0-> System.out.println("Alla prossima!");
                 default-> System.out.println("Scelta non valida");
 

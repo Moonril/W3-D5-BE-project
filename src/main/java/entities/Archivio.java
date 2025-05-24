@@ -6,6 +6,7 @@ import dao.PrestitoDao;
 import dao.UtenteDao;
 import exceptions.DuplicatoException;
 import exceptions.ElementoNonTrovatoException;
+import jakarta.persistence.EntityManager;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,6 +27,14 @@ public class Archivio {
     private ElementiCatalogoDao elementiDao;
     private PrestitoDao prestitoDao;
     private UtenteDao utenteDao;
+
+
+
+    public Archivio(EntityManager em) {
+        this.elementiDao = new ElementiCatalogoDao(em);
+        this.prestitoDao = new PrestitoDao(em);
+        this.utenteDao = new UtenteDao(em);
+    }
 
 
     //metodi
