@@ -2,10 +2,8 @@ package dao;
 
 import entities.ElementiCatalogo;
 import entities.Libro;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.TypedQuery;
+import exceptions.ElementoNonTrovatoException;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -50,10 +48,14 @@ public class ElementiCatalogoDao {
         return query.getResultList();
     }
 
-    public List<ElementiCatalogo> getByIsbn(String isbn) {
+    public ElementiCatalogo getByIsbn(String isbn) {
         TypedQuery<ElementiCatalogo> query = em.createNamedQuery("ElementoCatalogo.findByIsbn", ElementiCatalogo.class);
         query.setParameter("isbn", isbn);
-        return query.getResultList();
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            throw new  ElementoNonTrovatoException("Nessun elemento trovato con ISBN" + isbn);
+        }
     }
 
     public List<Libro> getByAutore(String autore) {

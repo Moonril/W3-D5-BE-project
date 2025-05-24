@@ -1,6 +1,9 @@
 package entities;
 
 
+import dao.ElementiCatalogoDao;
+import dao.PrestitoDao;
+import dao.UtenteDao;
 import exceptions.DuplicatoException;
 import exceptions.ElementoNonTrovatoException;
 
@@ -20,77 +23,44 @@ import java.util.stream.Collectors;
 public class Archivio {
 
     //contenitore
-    private Set<ElementiCatalogo> catalogo = new HashSet<>();
+    private ElementiCatalogoDao elementiDao;
+    private PrestitoDao prestitoDao;
+    private UtenteDao utenteDao;
 
 
     //metodi
 
-    public void aggiungiElemento(ElementiCatalogo elemento) throws DuplicatoException {
-        if (catalogo.contains(elemento)) {
-            throw new DuplicatoException("Elemento già presente.");
-        }
-        catalogo.add(elemento);
+    public void aggiungiElemento(ElementiCatalogo elemento) {
+        elementiDao.save(elemento);
     }
 
     public void rimuoviElemento(String isbn){
-        catalogo.removeIf(elemento -> elemento.getISBN().equals(isbn));
+        elementiDao.remove(isbn);
     }
 
-    public ElementiCatalogo cercaPerIsbn (String isbn) throws ElementoNonTrovatoException {
-        return catalogo.stream()
-                .filter(elemento -> elemento.getISBN().equals(isbn))
-                .findFirst()
-                .orElseThrow(() -> new ElementoNonTrovatoException("Elemento non trovato con codice: " + isbn));
+    public ElementiCatalogo cercaPerIsbn (String isbn) {
+        return elementiDao.getByIsbn(isbn);
     }
 
     public List<ElementiCatalogo> cercaPerAnno(int anno) throws ElementoNonTrovatoException {
-        List<ElementiCatalogo> risultati = catalogo.stream()
-                .filter(elemento -> elemento.getAnno() == anno)
-                .collect(Collectors.toList());
-
-        if (risultati.isEmpty()) {
-            throw new ElementoNonTrovatoException("Nessun elemento trovato per l'anno " + anno);
-        }
-
-        return risultati;
+        return elementiDao.getByAnno(anno);
     }
 
     public List<Libro> cercaPerAutore(String autore) throws ElementoNonTrovatoException{
-        List<Libro> risultati = catalogo.stream()
-                .filter(e -> e instanceof Libro)
-                .map(e -> (Libro) e)
-                .filter(libro -> libro.getAutore().equalsIgnoreCase(autore))
-                .collect(Collectors.toList());
-
-        if (risultati.isEmpty()) {
-            throw new ElementoNonTrovatoException("Nessun libro trovato per l'autore: " + autore);
-        }
-
-        return risultati;
+        return elementiDao.getByAutore(autore);
     }
 
-    public void aggiornaElemento(String isbn, ElementiCatalogo nuovoElemento) throws ElementoNonTrovatoException {
-        ElementiCatalogo daAggiornare = cercaPerIsbn(isbn);
-        catalogo.remove(daAggiornare);
-        catalogo.add(nuovoElemento);
+    public List<ElementiCatalogo> cercaPerTitolo(String titolo) {
+        return elementiDao.getByTitolo(titolo);
     }
 
-    public void stampaStatistiche(){
-        Long numeroLibri = catalogo.stream().filter(e->e instanceof Libro).count();
-        Long numeroRiviste = catalogo.stream().filter(e->e instanceof Rivista).count();
-
-        Optional<ElementiCatalogo> maxPagine = catalogo.stream()
-                .max(Comparator.comparingInt(ElementiCatalogo::getNumeroPagine));
-
-        double mediaPagine = catalogo.stream()
-                .mapToInt(ElementiCatalogo::getNumeroPagine)
-                .average()
-                .orElse(0);
-
-        System.out.println("Totale libri: " + numeroLibri);
-        System.out.println("Totale riviste: " + numeroRiviste);
-        System.out.println("Elemento con più pagine: " + maxPagine.map(ElementiCatalogo::getTitolo).orElse("Nessuno"));
-        System.out.println("Media pagine: " + mediaPagine);
+    public List<ElementiCatalogo> getPrestitiAttiviPerUtente(int numeroTessera) {
+        return prestitoDao.getByTessera(numeroTessera);
     }
+
+    public List<ElementiCatalogo> getPrestitiScadutiNonRestituiti() {
+        return prestitoDao.getScaduti();
+    }
+
 
 }
