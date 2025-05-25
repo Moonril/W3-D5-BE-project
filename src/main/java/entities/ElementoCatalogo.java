@@ -20,7 +20,7 @@ public abstract class ElementoCatalogo {
     @OneToMany
     private List<Prestito> prestiti;
 
-    public ElementoCatalogo(int isbn, String titolo, int anno, int numeroPagine) {
+    public ElementoCatalogo(String titolo, int anno, int numeroPagine) {
         this.isbn = isbn;
         this.titolo = titolo;
         this.anno = anno;

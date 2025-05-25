@@ -52,11 +52,6 @@ public class Main {
                 case 1->{
                     try {
 
-
-                        System.out.println("codice ISBN: ");
-
-                        int isbn = scanner.nextInt();
-                        scanner.nextLine();
                         System.out.println("Titolo: ");
                         String titolo = scanner.nextLine();
 
@@ -74,7 +69,7 @@ public class Main {
                         System.out.println("Genere: ");
                         String genere = scanner.nextLine();
 
-                        Libro libro = new Libro(isbn, titolo, anno, pagine, autore, genere);
+                        Libro libro = new Libro(titolo, anno, pagine, autore, genere);
                         archivio.aggiungiElemento(libro);
                         System.out.println(titolo + " aggiunto!");
                     }  catch (DuplicatoException e) {
@@ -83,16 +78,12 @@ public class Main {
                         System.out.println("Errore: Inserisci un numero");
                     } catch (Exception e) {
                         System.out.println("Errore generico");
+                        e.printStackTrace();
                     }
                 }
                 case 2 ->{
 
                     try{
-
-                        System.out.println("codice ISBN: ");
-                        int isbnr = scanner.nextInt();
-                        scanner.nextLine();
-
 
                         System.out.println("Titolo: ");
                         String titolor = scanner.nextLine();
@@ -109,7 +100,7 @@ public class Main {
                         String input = scanner.nextLine().toUpperCase();
                         Periodicita periodicita = Periodicita.valueOf(input);
 
-                        Rivista rivista = new Rivista(isbnr, titolor, annor, paginer, periodicita);
+                        Rivista rivista = new Rivista(titolor, annor, paginer, periodicita);
                         archivio.aggiungiElemento(rivista);
                         System.out.println(titolor + " aggiunto!");
                     } catch (IllegalArgumentException e) {
@@ -194,6 +185,8 @@ public class Main {
                     try {
                         System.out.println("Inserisci il titolo o parte del titolo da cercare: ");
                         String titolo = scanner.nextLine();
+                        scanner.nextLine();
+
                         List<ElementoCatalogo> risultati = archivio.cercaPerTitolo(titolo);
                         if (risultati.isEmpty()) {
                             System.out.println("Nessun elemento trovato con il titolo contenente: " + titolo);
@@ -202,6 +195,8 @@ public class Main {
                             risultati.forEach(e -> System.out.println("- " + e.getTitolo() + " (ISBN: " + e.getIsbn() + ")"));
                         }
                     } catch (ElementoNonTrovatoException e) {
+                        System.out.println("Errore: " + e.getMessage());
+                    } catch (IllegalArgumentException e) {
                         System.out.println("Errore: " + e.getMessage());
                     }
                 }

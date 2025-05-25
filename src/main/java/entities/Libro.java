@@ -14,8 +14,8 @@ public class Libro extends ElementoCatalogo {
 
     //costruttore
 
-    public Libro(int isbn, String titolo, int anno, int numeroPagine, String autore, String genere) {
-        super(isbn, titolo, anno, numeroPagine);
+    public Libro(String titolo, int anno, int numeroPagine, String autore, String genere) {
+        super(titolo, anno, numeroPagine);
         this.autore = autore;
         this.genere = genere;
     }

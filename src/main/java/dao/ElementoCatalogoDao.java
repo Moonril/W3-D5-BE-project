@@ -65,7 +65,7 @@ public class ElementoCatalogoDao {
     }
 
     public List<ElementoCatalogo> getByTitolo(String titolo){
-        TypedQuery<ElementoCatalogo> query = em.createQuery("select e from ElementiCatalogo e where lower(e.titolo) like lower(:titolo)", ElementoCatalogo.class);
+        TypedQuery<ElementoCatalogo> query = em.createQuery("select e from ElementoCatalogo e where lower(e.titolo) like lower(:titolo)", ElementoCatalogo.class);
         query.setParameter("titolo", "%" + titolo + "%");
         return query.getResultList();
     }
